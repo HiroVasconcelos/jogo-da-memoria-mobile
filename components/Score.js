@@ -1,6 +1,8 @@
+// todos modules importados para criação do placar
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+// componente do placar
 export default class Score extends React.Component {
   render() {
     return (
@@ -11,6 +13,7 @@ export default class Score extends React.Component {
   }
 }
 
+// estilos do componente
 const styles = StyleSheet.create({
   score_container: {
     flex: 1,

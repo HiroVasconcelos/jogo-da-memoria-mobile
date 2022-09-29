@@ -1,12 +1,15 @@
+// todos modules importados para criação da carta
 import React from 'react';
 import { StyleSheet, View, TouchableHighlight } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 
+// classe do componente da carta
 export default class Card extends React.Component {
   constructor(props) {
     super(props);
   }
 
+  // responsavel por renderizar o componente
   render() {
     let CardSource = FontAwesome;
     let icon_name = 'question-circle';

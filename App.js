@@ -1,3 +1,4 @@
+// todos os componentes, classes e assets importados pra a aplicação
 import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
@@ -7,6 +8,7 @@ import Card from './components/Card';
 
 import helpers from './helpers';
 
+// classe da aplicação
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -14,11 +16,13 @@ export default class App extends React.Component {
     this.funcaoTeste = this.funcaoTeste.bind(this);
     this.resetCards = this.resetCards.bind(this);
 
+    // fonte dos ícones
     let sources = {
       fontawesome: FontAwesome,
       ionicons: Ionicons,
     };
 
+    // um array com os ícones a serem exibidos
     let cards = [
       {
         src: 'ionicons',
@@ -97,6 +101,7 @@ export default class App extends React.Component {
       },
     ];
 
+    // setando os valores originais das propriedades da aplicação
     this.state = {
       current_selection: [],
       selected_pairs: [],
@@ -106,12 +111,13 @@ export default class App extends React.Component {
       numRow: 3,
     };
 
+    // responsável por pegar o tanto de cartas que será utilizado
     let filtredCards = cards.slice(0, this.state.numCards);
-
+    // clona o array de cima
     let clone = JSON.parse(JSON.stringify(filtredCards));
 
+    // junta as cartas filtradas com o clone no estado atual das cards
     this.cards = filtredCards.concat(clone);
-    console.log(this.cards);
     this.cards.map((obj) => {
       let id = Math.random().toString(36).substring(7);
       obj.id = id;
@@ -119,13 +125,16 @@ export default class App extends React.Component {
       obj.is_open = false;
     });
 
+    // usa a função shuffle para misturar a ordem das cartas
     this.cards = this.cards.shuffle();
     this.setState({ cards: this.cards });
   }
 
+  // a renderização da tela no dispositivo do usuário
   render() {
     return (
       <View style={styles.container}>
+        {/* botao fácil */}
         <TouchableOpacity
           onPress={() => {
             this.funcaoTeste(6, 3);
@@ -133,6 +142,7 @@ export default class App extends React.Component {
           style={styles.easy_buttom}>
           <Text style={styles.buttom_text}>FACIL</Text>
         </TouchableOpacity>
+        {/* botao medio */}
         <TouchableOpacity
           onPress={() => {
             this.funcaoTeste(10, 4);
@@ -140,6 +150,7 @@ export default class App extends React.Component {
           style={styles.medium_buttom}>
           <Text style={styles.buttom_text}>MEDIO</Text>
         </TouchableOpacity>
+        {/* botao dificil */}
         <TouchableOpacity
           onPress={() => {
             this.funcaoTeste(15, 5);
@@ -147,8 +158,11 @@ export default class App extends React.Component {
           style={styles.hard_buttom}>
           <Text style={styles.buttom_text}>DIFICIL</Text>
         </TouchableOpacity>
+        {/* chamando as linhas */}
         <View style={styles.body}>{this.renderRows.call(this)}</View>
+        {/* chamando o componente placar */}
         <Score score={this.state.score} />
+        {/* botao resetar aplicacao */}
         <TouchableOpacity style={styles.buttom} onPress={this.resetCards}>
           <Text style={styles.buttomText}>RESETAR</Text>
         </TouchableOpacity>
@@ -156,6 +170,7 @@ export default class App extends React.Component {
     );
   }
 
+  // função que reseta as cartas do jogo
   resetCards() {
     let cards = this.cards.map((obj) => {
       obj.is_open = false;
@@ -172,6 +187,7 @@ export default class App extends React.Component {
     });
   }
 
+  // função que renderiza as linhas
   renderRows() {
     let contents = this.getRowContents(this.state.cards);
     return contents.map((cards, index) => {
@@ -183,6 +199,7 @@ export default class App extends React.Component {
     });
   }
 
+  // função que renderiza as cartas
   renderCards(cards) {
     return cards.map((card, index) => {
       return (
@@ -198,6 +215,7 @@ export default class App extends React.Component {
     });
   }
 
+  // função relativa aos botões de dificuldade,a meta era passar por parametro um numero de cartas e linhas para a aplicação renderizar 
   funcaoTeste(numCards, numRow) {
     this.setState({
       numCards: numCards,
@@ -206,6 +224,7 @@ export default class App extends React.Component {
     this.resetCards();
   }
 
+  // responsavel por setar cartas viradas, combinacoes, desvirar e atualizar o placar com combinações
   clickCard(id) {
     let selected_pairs = this.state.selected_pairs;
     let current_selection = this.state.current_selection;
@@ -255,6 +274,7 @@ export default class App extends React.Component {
     }
   }
 
+  // puxa o conteudo das linhas
   getRowContents(cards) {
     let contents_r = [];
     let contents = [];
